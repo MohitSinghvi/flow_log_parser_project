@@ -39,7 +39,7 @@ This project provides a Python program that parses AWS VPC Flow Logs (default fo
 
    Example:
    
-       python -m flow_log_parser.main \
+       python3 -m flow_log_parser.main \
            resources/sample_flow_logs.txt \
            resources/sample_lookup.csv \
            output.txt
@@ -58,7 +58,7 @@ This project includes both **unit tests** and an **integration test**:
 To run them all:
 
  cd flow_log_parser_project
- python -m unittest discover tests
+ python3 -m unittest discover tests
 
 
 
