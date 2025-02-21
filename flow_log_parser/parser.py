@@ -4,8 +4,8 @@ from .protocol_utils import protocolNumberToStr
 
 def loadLookupTable(lookup_csv_path):
     """
-    Load CSV and return a dict mapping (port_int, protocol_str_lower) -> tag (original case).
-    We do case-insensitive matching on protocol only, so we store protocol in lowercase for lookups.
+    I am loading a CSV and returning a dict mapping (port_int, protocol_str_lower) -> tag (original case).
+    I am doing case-insensitive matching on protocol only, so we store protocol in lowercase for lookups.
     """
     lookup_dict = {}
     with open(lookup_csv_path, 'r', encoding='utf-8') as f:
@@ -29,8 +29,8 @@ def loadLookupTable(lookup_csv_path):
 
 def parseFlowLogs(flow_logs_path, lookup_dict):
     """
-      - Extract dstport (column 6), protocol numeric (column 7)
-      - Convert protocol number to string, and classify using lookup_dict. Track the counts.
+      - I am extracting the dstport (column 6), protocol numeric (column 7)
+      - I am then converting protocol number to string, and classifying using lookup_dict. Also, Tracking the counts.
     """
     tag_counts = {}
     portproto_counts = {}
@@ -68,7 +68,7 @@ def parseFlowLogs(flow_logs_path, lookup_dict):
 
             tag = lookup_dict.get((dst_port, proto_str), "Untagged")
 
-            # Update tag count
+            # Updating tag count
             tag_counts[tag] = tag_counts.get(tag, 0) + 1
 
     return tag_counts, portproto_counts
