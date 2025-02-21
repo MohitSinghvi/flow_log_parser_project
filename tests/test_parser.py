@@ -9,7 +9,7 @@ from flow_log_parser.parser import loadLookupTable, parseFlowLogs
 class TestFlowLogParser(unittest.TestCase):
 
     def setUp(self):
-        # Create a temporary directory for test files
+        # Creating a temporary directory for test files
         self.temp_dir = tempfile.TemporaryDirectory()
         self.temp_path = self.temp_dir.name
 
@@ -19,7 +19,7 @@ class TestFlowLogParser(unittest.TestCase):
 
     def test_load_lookup_table_valid(self):
         """
-        Test loading a valid lookup CSV with multiple rows.
+        This test is to load a valid lookup CSV with multiple rows.
         """
         csv_content = """dstport,protocol,tag
 25,tcp,sv_P1
@@ -37,7 +37,7 @@ class TestFlowLogParser(unittest.TestCase):
 
     def test_load_lookup_table_invalid_port(self):
         """
-        Rows with invalid integer ports should be skipped.
+        Skipping Rows with invalid integer ports
         """
         csv_content = """dstport,protocol,tag
 25,tcp,sv_P1
@@ -84,7 +84,7 @@ invalid_port,tcp,skip_me
 2 123456 eni-zzz 10.0.0.3 1.1.1.3 1234 25 6 5 50 0 0 ACCEPT OK
 """
 
-        # Write them to temp
+        # Writing them to temp
         csv_path = os.path.join(self.temp_path, "lookup.csv")
         logs_path = os.path.join(self.temp_path, "logs.txt")
 
@@ -96,14 +96,14 @@ invalid_port,tcp,skip_me
         lookup_dict = loadLookupTable(csv_path)
         tag_counts, portproto_counts = parseFlowLogs(logs_path, lookup_dict)
 
-        # Check tags
+        # Checking tags
         self.assertEqual(tag_counts.get("secure"), 1)
         self.assertEqual(tag_counts.get("telnet_tag"), 1)
         self.assertEqual(tag_counts.get("email_tag"), 1)
         # No untagged
         self.assertNotIn("Untagged", tag_counts)
 
-        # Check portproto counts
+        # Checking portproto counts
         self.assertEqual(portproto_counts.get((443, "tcp")), 1)
         self.assertEqual(portproto_counts.get((23, "tcp")), 1)
         self.assertEqual(portproto_counts.get((25, "tcp")), 1)
@@ -130,10 +130,6 @@ invalid_port,tcp,skip_me
         lookup_dict = loadLookupTable(csv_path)
         tag_counts, portproto_counts = parseFlowLogs(logs_path, lookup_dict)
 
-        # 1) First line => version=2, dstport=80 => "http"
-        # 2) Second line => version=3 => skipped
-        # 3) Third line => "not_an_int" => skip
-        # 4) Fourth line => version=2, dstport=9999 => not in CSV => "Untagged"
 
         self.assertEqual(tag_counts.get("http"), 1)
         self.assertEqual(tag_counts.get("Untagged"), 1)

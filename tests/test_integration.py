@@ -15,12 +15,6 @@ class TestIntegration(unittest.TestCase):
         self.temp_dir.cleanup()
 
     def test_main_generates_output_file(self):
-        """
-        Full integration test:
-        1. Create a small CSV and a small flow logs file.
-        2. Run "python -m flow_log_parser.main <logs> <csv> <output>"
-        3. Verify the output file is created and has the correct content.
-        """
 
         # CSV
         csv_content = """dstport,protocol,tag
@@ -40,10 +34,9 @@ class TestIntegration(unittest.TestCase):
         with open(logs_path, "w") as f:
             f.write(flow_logs_content)
 
-        # Output file
+
         output_path = os.path.join(self.temp_path, "results.txt")
 
-        # Now run the main program with subprocess
         cmd = [
             "python3", 
             "-m", 
@@ -54,16 +47,13 @@ class TestIntegration(unittest.TestCase):
         ]
         result = subprocess.run(cmd, capture_output=True, text=True)
 
-        # Expect successful exit
         self.assertEqual(result.returncode, 0, msg=f"Error running main: {result.stderr}")
 
-        # Now let's check the output file
+
         with open(output_path, "r") as outf:
             output_lines = outf.read().strip().splitlines()
 
-        # We expect Tag Counts and Port/Protocol lines
-        # Let's just check that "secure_tag" and "email_tag" appear,
-        # plus "Untagged" for 3389 (since it's not in CSV).
+
         joined_output = "\n".join(output_lines)
 
         self.assertIn("Tag,Count", joined_output)

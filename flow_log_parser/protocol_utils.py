@@ -2,7 +2,7 @@
 
 def protocolNumberToStr(proto_num):
     """
-    Convert a numeric protocol (e.g. '6', '17', '1') to a human-readable string.
+    I am converting a numeric protocol (e.g. '6', '17', '1') to a human-readable string.
     Unknown -> 'proto_<num>'
     """
     mapping = {

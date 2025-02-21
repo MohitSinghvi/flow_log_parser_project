@@ -12,13 +12,13 @@ def main():
     lookup_csv = sys.argv[2]
     output_path = sys.argv[3]
 
-    # 1) Load lookup table
+    # 1) Here we are basically loading the lookup table
     lookup_dict = loadLookupTable(lookup_csv)
 
-    # 2) Parse flow logs
+    # 2) Here we are parsing flow logs
     tag_counts, portproto_counts = parseFlowLogs(flow_log_file, lookup_dict)
 
-    # 3) Write results to an output file
+    # 3) Writing results to an output file
     with open(output_path, "w", encoding="utf-8") as out_f:
 
         out_f.write("Tag Counts:\n")
